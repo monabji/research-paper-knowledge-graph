@@ -1,0 +1,30 @@
+services:
+  mysql:
+    image: mysql:8.4
+    environment:
+      MYSQL_DATABASE: research_knowledge_graph
+      MYSQL_USER: research
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD:-research_local}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:-root_local}
+    ports:
+      - "127.0.0.1:3306:3306"
+    volumes:
+      - research_mysql:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 5s
+      timeout: 5s
+      retries: 30
+  app:
+    build: .
+    ports:
+      - "5173:5173"
+    environment:
+      DATABASE_URL: mysql://research:${MYSQL_PASSWORD:-research_local}@mysql:3306/research_knowledge_graph
+      NODE_ENV: production
+      PORT: 5173
+    depends_on:
+      mysql:
+        condition: service_healthy
+volumes:
+  research_mysql:

@@ -1,0 +1,30 @@
+erDiagram
+  PAPER ||--o{ AUTHORSHIP : has
+  AUTHOR ||--o{ AUTHORSHIP : writes
+  AUTHOR ||--o{ AUTHOR_INSTITUTION : holds
+  INSTITUTION ||--o{ AUTHOR_INSTITUTION : includes
+  VENUE |o--o{ PAPER : publishes
+  PAPER ||--o{ PAPER_DATASET : uses
+  DATASET ||--o{ PAPER_DATASET : referenced_by
+  PAPER ||--o{ PAPER_METHOD : uses
+  METHOD ||--o{ PAPER_METHOD : applied_in
+  PAPER ||--o{ PAPER_KEYWORD : tagged_with
+  KEYWORD ||--o{ PAPER_KEYWORD : describes
+  PAPER ||--o{ CITATION : citing_paper
+  PAPER ||--o{ CITATION : cited_paper
+  AUTHORSHIP {
+    int paper_id PK,FK
+    int author_id PK,FK
+    int author_order
+    boolean is_corresponding
+  }
+  AUTHOR_INSTITUTION {
+    int author_id PK,FK
+    int institution_id PK,FK
+    int start_year PK
+    int end_year
+  }
+  CITATION {
+    int citing_paper_id PK,FK
+    int cited_paper_id PK,FK
+  }

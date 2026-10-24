@@ -1,0 +1,28 @@
+{
+  "name": "research-knowledge-graph",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "node --watch --env-file-if-exists=.env server/index.js",
+    "build": "vite build",
+    "start": "NODE_ENV=production node --env-file-if-exists=.env server/index.js",
+    "test": "node --test tests/*.test.js",
+    "db:init": "node --env-file-if-exists=.env scripts/init-db.js",
+    "format": "prettier --write src server scripts/*.js tests README.md docs/API.md"
+  },
+  "dependencies": {
+    "ascii.rest": "^0.4.0",
+    "express": "^5.1.0",
+    "mysql2": "^3.14.0",
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0"
+  },
+  "devDependencies": {
+    "prettier": "^3.9.10",
+    "vite": "^7.0.0"
+  },
+  "engines": {
+    "node": ">=22.16"
+  }
+}
