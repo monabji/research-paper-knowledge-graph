@@ -1,10 +1,10 @@
 # Manage the live website and backend
 
-The website runs on Vercel; its persistent database runs on Neon PostgreSQL in Singapore. Redeploying the website does not reset the database.
+The [live website](https://research-paper-knowledge-graph.vercel.app/) runs on Vercel; its persistent database runs on Neon PostgreSQL in Singapore. Redeploying the website does not reset the database.
 
 ## Open the live database
 
-1. Sign in to your Vercel account and open [the database resource](https://vercel.com/d/dashboard/integrations/neon/icfg_e7xMmtIqPr6SnX0HwxVy7hzd/resources/store_mceYspfyW34fSI2o).
+1. Sign in to your Vercel account, open [the project's Storage page](https://vercel.com/manavs-projects-0b237225/research-paper-knowledge-graph/stores), and select **research-paper-knowledge-graph-db**.
 2. Choose **Open in Neon** (the integration provides single sign-on). Select the database's current branch and `neondb` database.
 3. Open **Tables** to browse and edit rows, or **SQL Editor** to run queries. The application's tables are in the `public` schema.
 
