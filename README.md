@@ -47,6 +47,23 @@ TEST_DATABASE_URL=mysql://research:research_local@localhost:3306/research_test n
 
 This suite mutates the database and expects the original seed. Use a dedicated test database, never a database containing work you need to retain.
 
+## Vercel deployment
+
+The hosted app uses **Neon PostgreSQL** for persistent data. Local SQLite and MySQL remain supported. `server/postgres.js` adapts the same 13-table model, fixed seed, transactions, recursive traversal and full-text search to PostgreSQL. `database/postgres-schema.sql` contains that schema.
+
+`vercel.json` deploys the Vite frontend and Express API together using Vercel Services (Beta). `/api/*` reaches `server/vercel.js`; all other requests reach the frontend. The serverless entry connects lazily, uses the pooled `DATABASE_URL`, and never writes a disposable SQLite database on Vercel. Database initialization is transactional and guarded against concurrent first starts.
+
+The Vercel project is `research-paper-knowledge-graph` in `manavs-projects-0b237225`. A separate Neon free-plan database, `research-paper-knowledge-graph-db`, is connected to production and preview. Credentials are managed by Vercel and excluded from Git. For schema initialization use the direct, non-pooled URL; normal API traffic uses the pooled URL.
+
+```bash
+npx vercel link --project research-paper-knowledge-graph --scope manavs-projects-0b237225
+npx vercel env pull .env.vercel.local --environment production --yes
+node --env-file=.env.vercel.local scripts/init-db.js
+npx vercel deploy --prod
+```
+
+The initial GitHub connection attempt could not access the private repository. CLI deployment works independently of Git integration; automatic deploys on GitHub pushes require granting the Vercel GitHub app access to that repository. See [Manage the live website and backend](docs/OPERATIONS.md) for database dashboard access, table browsing, SQL edits, logs, and staged backend releases.
+
 ## What works
 
 - **Overview:** current table counts, citation rankings, author activity, publication years, recent records.
@@ -89,7 +106,7 @@ SQLite is the locally verified runtime. A live MySQL/Docker run was not possible
 
 ```text
 src/           React views, shared terminal components, CSS, API client
-server/        Express API, validation, SQLite/MySQL adapter
+server/        Express API, validation, SQLite/MySQL/PostgreSQL adapters
 public/        bundled JetBrains Mono fonts and favicon
 database/      MySQL schema, SQLite schema, exact seed, demo queries
 tests/         HTTP/database integration tests
@@ -97,7 +114,7 @@ scripts/       initialization and source extraction tools
 docs/          design guide, schema diagram, API documentation
 ```
 
-This is a trusted local coursework application. As in the original project, authentication, permissions, ingestion pipelines, audit history, and public multi-user hosting are outside its scope. The server uses one serialized connection to keep transactions isolated; the complete catalog is loaded for relation pickers, so this implementation targets the small demonstration collection.
+This is a coursework demonstration with public read/write API endpoints and no application login or per-user permissions. It contains synthetic data. The server serializes requests within each instance to keep transactions isolated; PostgreSQL handles constraints and transactions across instances. The complete catalog is loaded for relation pickers, so this implementation targets the small demonstration collection.
 
 ## Credits
 

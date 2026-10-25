@@ -9,12 +9,15 @@
     "start": "NODE_ENV=production node --env-file-if-exists=.env server/index.js",
     "test": "node --test tests/*.test.js",
     "db:init": "node --env-file-if-exists=.env scripts/init-db.js",
-    "format": "prettier --write src server scripts/*.js tests README.md docs/API.md"
+    "format": "prettier --write src server scripts/*.js tests README.md docs/API.md",
+    "deploy:stage": "npx -y vercel@65.2.0 deploy --prod --skip-domain --yes --project research-paper-knowledge-graph --scope manavs-projects-0b237225 --regions sin1"
   },
   "dependencies": {
+    "@vercel/functions": "^3.10.3",
     "ascii.rest": "^0.4.0",
     "express": "^5.1.0",
     "mysql2": "^3.14.0",
+    "pg": "^8.23.1",
     "react": "^19.1.0",
     "react-dom": "^19.1.0"
   },
@@ -25,5 +28,8 @@
   },
   "engines": {
     "node": ">=22.16"
+  },
+  "overrides": {
+    "zod": "^4.6.7"
   }
 }

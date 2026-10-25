@@ -129,6 +129,11 @@ export function createApp(db) {
       else if (db.dialect === "mysql") {
         where.push("MATCH(p.title,p.abstract) AGAINST (? IN BOOLEAN MODE)");
         params.push(tokens.map((t) => "+" + t + "*").join(" "));
+      } else if (db.dialect === "postgres") {
+        where.push(
+          "to_tsvector('simple',coalesce(p.title,'') || ' ' || coalesce(p.abstract,'')) @@ to_tsquery('simple',?)",
+        );
+        params.push(tokens.map((t) => t + ":*").join(" & "));
       } else {
         where.push(
           "p.paper_id IN (SELECT rowid FROM paper_search WHERE paper_search MATCH ?)",
@@ -257,7 +262,7 @@ export function createApp(db) {
     plan: {
       title: "citation index query plan",
       sql:
-        db.dialect === "mysql"
+        db.dialect !== "sqlite"
           ? "EXPLAIN SELECT citing_paper_id FROM citation WHERE cited_paper_id=20"
           : "EXPLAIN QUERY PLAN SELECT citing_paper_id FROM citation WHERE cited_paper_id=20",
     },
@@ -445,7 +450,9 @@ export function createApp(db) {
     req.releaseApi?.();
     let status = err.status || 500,
       message = err.message;
-    if (/UNIQUE constraint|Duplicate entry/i.test(message)) {
+    if (
+      /UNIQUE constraint|Duplicate entry|duplicate key value/i.test(message)
+    ) {
       status = 409;
       message = "this identifier or relationship already exists";
     } else if (/FOREIGN KEY constraint|foreign key constraint/i.test(message)) {

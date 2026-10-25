@@ -8,6 +8,10 @@ export async function openDatabase({
   url = process.env.DATABASE_URL,
   path = process.env.SQLITE_PATH || resolve("data/research.db"),
 } = {}) {
+  if (/^postgres(?:ql)?:/.test(url || "")) {
+    const { openPostgres } = await import("./postgres.js");
+    return openPostgres(url);
+  }
   let db;
   if (url) {
     const connection = await mysql.createConnection({

@@ -393,18 +393,18 @@ test("all report queries execute and an indexed citation query plan is available
 test("database-level checks protect direct SQL writes too", async () => {
   await assert.rejects(
     () => db.run("INSERT INTO citation VALUES(1,1)"),
-    /cannot cite itself/,
+    /cannot cite itself|chk_citation_no_self/,
   );
   await assert.rejects(
     () =>
       db.run(
         "UPDATE citation SET cited_paper_id=citing_paper_id WHERE citing_paper_id=37",
       ),
-    /cannot cite itself/,
+    /cannot cite itself|chk_citation_no_self/,
   );
   await assert.rejects(
     () => db.run("INSERT INTO authorship VALUES(1,30,1,0)"),
-    /UNIQUE|Duplicate/,
+    /unique|duplicate/i,
   );
   await assert.rejects(
     () =>
