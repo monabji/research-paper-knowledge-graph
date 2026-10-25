@@ -12,3 +12,14 @@ Verified locally on 25 October 2026, Node 26.7.0 and SQLite.
 - Source validation: `git diff --check` passes.
 
 Not verified live: MySQL and Docker Compose. The host denied access to `/var/run/docker.sock`, and no MySQL server/client was available. The MySQL adapter, original MySQL schema/seed, Compose setup and `TEST_DATABASE_URL` integration path are included. See the README for instructions.
+
+## Focused graph update
+
+The experimental hero/scene/ticker redesign was fully reverted at the user’s request. Only data displays changed: the publication-year chart now uses ascii.rest’s real-data bar-chart piece with axes and stationary values, and the citation network renders stored directed connections with selectable highlights. The original header, counters, panels and navigation remain.
+
+- `npm test`: 20 tests pass, including graph direction, reverse/cyclic edges, selected-edge filtering and isolated roots.
+- `npm run build`: passes.
+- Browser: selected paper 37 and verified references 30, 34, 36; keyboard Enter selected the node; clicking 2019 filtered to 6 papers.
+- 375 px: document width 360 px, diagram overflow contained in its own scroller, no visible API errors. Console error log empty.
+- No new looping animation or synthetic telemetry was added. The chart renders one static frame from live database counts.
+- T3 preview snapshots timed out; verification completed in a separate Brave tab through the browser tool.

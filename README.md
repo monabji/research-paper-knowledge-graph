@@ -11,7 +11,7 @@ npm ci
 npm run dev
 ```
 
-Open **http://localhost:5173**. The first startup creates and seeds `data/research.db`; later startups preserve your changes. Fonts, ASCII banners, and all application assets are bundled locally, so runtime requires no CDN access. The development server reloads backend changes and Vite updates frontend changes.
+Open **http://localhost:5173**. The first startup creates and seeds `data/research.db`; later startups preserve your changes. Fonts, ASCII banners, and all application assets are bundled locally, so runtime requires no CDN access. The development server uses nodemon polling for backend changes and Vite updates frontend changes. Polling is limited to `server/` to avoid the native Node watch-mode crash seen on Node 26.7.0; frontend edits do not restart the backend.
 
 Optional settings live in `.env` (copy `.env.example`). `PORT` defaults to `5173`; `SQLITE_PATH` selects another SQLite file. Stop the app before backing up or replacing the database file. To start a fresh demonstration, move the entire `data` directory aside and restart.
 

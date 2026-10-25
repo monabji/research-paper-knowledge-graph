@@ -1257,3 +1257,120 @@ tbody tr:nth-child(2n):hover {
   overflow-x: auto;
   gap: 1ch;
 }
+/* Data displays borrow ascii.rest's axes, block bars and character-grid connectors. */
+.publication-plot {
+  container-type: inline-size;
+  display: flex;
+  justify-content: center;
+  overflow: hidden;
+  color: var(--accent);
+}
+.publication-plot pre {
+  font-family: var(--mono) !important;
+  font-size: min(12px, 2.6cqw);
+  line-height: 1.15;
+  white-space: pre;
+}
+.year-values {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 2ch;
+  margin-top: 12px;
+}
+.year-values button {
+  display: flex;
+  gap: 0.75ch;
+  align-items: center;
+  font-size: 11px;
+}
+.year-values button:hover .dim {
+  color: var(--accent);
+}
+.year-values b {
+  font-weight: 400;
+}
+.citation-diagram-scroll {
+  max-height: 480px;
+  overflow: auto;
+  padding: 7px 0 18px;
+  scrollbar-gutter: stable;
+}
+.citation-diagram {
+  position: relative;
+  font: 14px/1.5 var(--mono);
+  isolation: isolate;
+}
+.citation-wires {
+  position: absolute;
+  left: 0;
+  top: 0;
+  color: var(--faint);
+  white-space: pre;
+  font: inherit;
+  pointer-events: none;
+}
+.citation-wires.highlighted {
+  color: var(--accent);
+  z-index: 1;
+}
+.diagram-depth {
+  position: absolute;
+  top: 0;
+  font-size: inherit;
+}
+.diagram-node {
+  position: absolute;
+  width: 9ch;
+  height: 1.5em;
+  background: var(--bg);
+  white-space: pre;
+  text-align: center;
+  font: inherit;
+  z-index: 2;
+}
+.diagram-node.diagram-root {
+  color: var(--accent);
+}
+.diagram-node.selected {
+  background: var(--accent);
+  color: #000;
+}
+.diagram-node:hover {
+  color: var(--accent);
+}
+.diagram-node.selected:hover {
+  color: #000;
+}
+.diagram-year {
+  position: absolute;
+  top: 100%;
+  left: 2ch;
+  color: var(--dim);
+  font-size: 12px;
+  background: var(--bg);
+  line-height: 1.5;
+}
+.diagram-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 3ch;
+  font-size: 11px;
+  margin-top: 12px;
+}
+@media (max-width: 640px) {
+  .citation-diagram {
+    font-size: 12px;
+  }
+  .diagram-year {
+    font-size: 10px;
+  }
+  .diagram-legend {
+    font-size: 10px;
+  }
+  .publication-plot pre {
+    font-size: min(12px, 2.6cqw);
+  }
+}
+.citation-diagram {
+  margin-inline: auto;
+}

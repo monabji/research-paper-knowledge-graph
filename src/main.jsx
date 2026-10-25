@@ -20,6 +20,7 @@ import {
   code,
 } from "./components.jsx";
 import "./style.css";
+import { PublicationChart, CitationDiagram } from "./data-visuals.jsx";
 const tabs = [
   "overview",
   "papers",
@@ -241,36 +242,10 @@ function Overview({ revision }) {
           title="papers by publication year"
           foot={`${counts.paper} papers · counts from current collection`}
         >
-          <div className="histogram">
-            {data.years.map((y) => (
-              <div className="hist-col" key={y.year}>
-                <span className="dim">{y.count}</span>
-                <pre className="accent" aria-hidden="true">
-                  {Array.from(
-                    {
-                      length: Math.max(
-                        1,
-                        Math.round(
-                          (y.count /
-                            Math.max(...data.years.map((y) => y.count))) *
-                            4,
-                        ),
-                      ),
-                    },
-                    () => "██",
-                  ).join("\n")}
-                </pre>
-                <button onClick={() => go(`papers?publication_year=${y.year}`)}>
-                  {String(y.year).slice(2)}
-                </button>
-              </div>
-            ))}
-          </div>
-          <div className="split dim small">
-            <span>{data.years[0]?.year}</span>
-            <span>publication year →</span>
-            <span>{data.years.at(-1)?.year}</span>
-          </div>
+          <PublicationChart
+            years={data.years}
+            onYear={(year) => go(`papers?publication_year=${year}`)}
+          />
         </Panel>
         <Panel
           title="author activity"
@@ -954,12 +929,6 @@ function Citations({ query, revision, catalog }) {
     [view, setView] = useState("network"),
     [selected, setSelected] = useState(null);
   const { data, loading, error } = useLoad("/graph?" + request, revision);
-  const levels = data
-    ? Array.from(
-        { length: Math.max(...data.nodes.map((n) => n.depth)) + 1 },
-        (_, i) => data.nodes.filter((n) => n.depth === i),
-      )
-    : [];
   useEffect(() => {
     if (query) {
       const p = new URLSearchParams(query);
@@ -1080,44 +1049,16 @@ function Citations({ query, revision, catalog }) {
               title={
                 view === "network" ? "citation levels" : "traversal results"
               }
-              foot="nodes grouped by shortest distance · select a node to inspect"
+              foot="shortest-distance columns · arrows show stored citation direction"
               className="graph-panel"
             >
               {view === "network" ? (
-                <div className="scroll-x">
-                  <div className="graph-levels">
-                    {levels.map((nodes, i) => (
-                      <div className="graph-level" key={i}>
-                        <div className="dim small">
-                          {i === 0 ? "root" : "depth " + i}
-                          <span className="faint"> ────</span>
-                        </div>
-                        {nodes.map((n) => (
-                          <button
-                            key={n.paper_id}
-                            title={n.title}
-                            className={
-                              "graph-node " +
-                              (n.paper_id === data.root ? "root-node" : "") +
-                              (selected?.paper_id === n.paper_id
-                                ? " selected"
-                                : "")
-                            }
-                            onClick={() => setSelected(n)}
-                          >
-                            <span aria-hidden="true">{i ? "→ " : ""}[ </span>
-                            {code(n.paper_id)}
-                            <span aria-hidden="true"> ]</span>
-                            <span className="dim small">
-                              {" "}
-                              {n.publication_year}
-                            </span>
-                          </button>
-                        ))}
-                      </div>
-                    ))}
-                  </div>
-                </div>
+                <CitationDiagram
+                  nodes={data.nodes}
+                  edges={data.edges}
+                  selected={selected}
+                  onSelect={setSelected}
+                />
               ) : (
                 <Table
                   rows={data.nodes.map(
