@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="public/favicon.svg" width="80" alt="Orange Research Paper Knowledge Graph logo">
+</p>
+
 # Research Paper Knowledge Graph
 
 A complete local web application for the relational database project in the supplied paper. React and Express provide a Terminal ASCII interface for the original seven entities and six association tables. The schema and **exact synthetic seed records** were extracted from Appendix C; this is demonstration data, not real scholarship.
