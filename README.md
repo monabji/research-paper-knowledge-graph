@@ -1,6 +1,16 @@
+<p align="center">
+  <img src="public/favicon.svg" width="80" alt="Orange Research Paper Knowledge Graph logo">
+</p>
+
 # Research Paper Knowledge Graph
 
-A complete local web application for the relational database project in the supplied paper. React and Express provide a Terminal ASCII interface for the original seven entities and six association tables. The schema and **exact synthetic seed records** were extracted from Appendix C; this is demonstration data, not real scholarship.
+A browser-based relational database explorer for synthetic research-paper records. Search and edit papers and authors, follow citation paths, run reports, and manage the research catalog through a terminal-style interface.
+
+[Open the live app](https://research-paper-knowledge-graph.vercel.app/)
+
+## Demo data and access
+
+The bundled records are synthetic demonstration data, not real scholarly records. The hosted app has no login or per-user permissions. Any visitor can change the shared database, so do not enter private or production data.
 
 ## Run locally
 
@@ -114,7 +124,7 @@ scripts/       initialization and source extraction tools
 docs/          design guide, schema diagram, API documentation
 ```
 
-This is a coursework demonstration with public read/write API endpoints and no application login or per-user permissions. It contains synthetic data. The server serializes requests within each instance to keep transactions isolated; PostgreSQL handles constraints and transactions across instances. The complete catalog is loaded for relation pickers, so this implementation targets the small demonstration collection.
+The server serializes requests within each instance to keep transactions isolated; PostgreSQL handles constraints and transactions across instances. The complete catalog is loaded for relation pickers, so this implementation targets the small demonstration collection.
 
 ## Credits
 
