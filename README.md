@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="public/favicon.svg" width="80" alt="Orange Research Paper Knowledge Graph logo">
+  <img src="public/research-logo.png" width="360" alt="Orange RESEARCH wordmark">
 </p>
 
 # Research Paper Knowledge Graph
@@ -117,7 +117,7 @@ SQLite is the locally verified runtime. A live MySQL/Docker run was not possible
 ```text
 src/           React views, shared terminal components, CSS, API client
 server/        Express API, validation, SQLite/MySQL/PostgreSQL adapters
-public/        bundled JetBrains Mono fonts and favicon
+public/        bundled JetBrains Mono fonts, favicon, and README wordmark
 database/      MySQL schema, SQLite schema, exact seed, demo queries
 tests/         HTTP/database integration tests
 scripts/       initialization and source extraction tools
