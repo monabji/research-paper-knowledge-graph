@@ -1989,7 +1989,7 @@ function App() {
     <div className="page">
       <header className="top">
         <a className="brand" href="#overview">
-          <span aria-hidden="true">[</span> rkg{" "}
+          <span aria-hidden="true">[</span> RESEARCH{" "}
           <span aria-hidden="true">]</span>
         </a>
         <nav className="tabs" aria-label="main sections">
