@@ -8,6 +8,10 @@ A browser-based relational database explorer for synthetic research-paper record
 
 [Open the live app](https://research-paper-knowledge-graph.vercel.app/)
 
+## Demo data and access
+
+The bundled records are synthetic demonstration data, not real scholarly records. The hosted app has no login or per-user permissions. Any visitor can change the shared database, so do not enter private or production data.
+
 ## Run locally
 
 Use Node.js **22.16+** (Node 24 LTS recommended). No separate database server is needed for the default SQLite mode.
@@ -120,7 +124,7 @@ scripts/       initialization and source extraction tools
 docs/          design guide, schema diagram, API documentation
 ```
 
-This is a coursework demonstration with public read/write API endpoints and no application login or per-user permissions. It contains synthetic data. The server serializes requests within each instance to keep transactions isolated; PostgreSQL handles constraints and transactions across instances. The complete catalog is loaded for relation pickers, so this implementation targets the small demonstration collection.
+The server serializes requests within each instance to keep transactions isolated; PostgreSQL handles constraints and transactions across instances. The complete catalog is loaded for relation pickers, so this implementation targets the small demonstration collection.
 
 ## Credits
 
